@@ -2,23 +2,15 @@
 const { Router } = require('express');
 const routes = Router();
 
-const axios = require('axios');
+const SearchController = require('./controllers/SearchController')
+const DevController = require('./controllers/DevController');
 
 //get, post, put, delete
 
-routes.post('/devs', async (request, response) => {
-    const { github_username, techs } = request.body;
-    const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`);
+routes.get('/devs', DevController.index);
+routes.post('/devs', DevController.store);
 
-    const { name = login , avatar_url, bio } = apiResponse.data;
-    
-    const techsArray = techs.splt(',').map(tech => tech.trim());
-
-
-    //console.log( name, avatar_url, bio, github_username);
-
-    return response.json({ message: 'Hello Daniel'});
-});
+routes.get('/search', SearchController.index);
 
 //Agora vamos exportar nossas rotas
 
